@@ -53,3 +53,6 @@ data Weekday = Sunday | Monday | Tuesday | Wednesday | Thursday | Friday | Satur
 
 funnyFilter :: Eq a => [(a,b)] -> a -> [b]
 funnyFilter li k = [ y | (x,y) <- li, x == k]
+
+month :: Weekday -> [(Weekday, Int)]
+month x = [ (toEnum(mod (num + (fromEnum x)) 7), num) | num <- [1..30] ]
