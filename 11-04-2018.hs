@@ -55,4 +55,4 @@ funnyFilter :: Eq a => [(a,b)] -> a -> [b]
 funnyFilter li k = [ y | (x,y) <- li, x == k]
 
 month :: Weekday -> [(Weekday, Int)]
-month x = [ (toEnum(mod (num + (fromEnum x)) 7), num) | num <- [1..30] ]
+month x = [ (toEnum(mod (num + (fromEnum x) - 1) 7), num) | num <- [1..30] ]
