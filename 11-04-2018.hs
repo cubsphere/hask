@@ -5,12 +5,16 @@ mdc :: Integer -> Integer -> Integer
 mdc 0 y = y
 mdc x y = mdc (mod y x) x
 
+sieve :: [Integer] -> [Integer]
+sieve [] = []
+sieve (x:xs) = x:(sieve $ filter (\y -> mod x y /= 0) xs)
+
 --it makes no sense to use the sieve of eratosthenes for this...
 isPrime :: Integer -> Bool
 isPrime 0 = false
 isPrime 1 = false
 isPrime 2 = true
-isPrime x = and [mdc x y == 1 | y <- [2..ceiling(sqrt(fromIntegral x))]]
+isPrime x = and [mdc x y == 1 | y <- sieve [2..ceiling(sqrt(fromIntegral x))]]
 --could use something faster than mdc, but i'm too lazy to figure out the proper types and all
 
 type Point = (Double,Double,Double)
