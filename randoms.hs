@@ -9,7 +9,7 @@ fib :: Int -> Int
 fib 0 = 0
 fib 1 = 1
 fib x = z
-    where (y,z) = fibDuo (x)
+    where (_,z) = fibDuo (x)
 
 fibDuo :: Int -> (Int, Int)
 fibDuo 1 = (0,1)
@@ -25,3 +25,6 @@ test2 _ = false
 
 test3 :: Int -> Int
 test3 _ = 0
+
+myMap :: (a->b->c) -> [a] -> [b] -> [c]
+myMap fun ali bli = [fun x y | (x,y) <- zip ali bli]

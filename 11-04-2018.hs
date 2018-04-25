@@ -7,9 +7,9 @@ mdc x y = mdc (mod y x) x
 
 sieve :: [Integer] -> [Integer]
 sieve [] = []
-sieve (x:xs) = x:(sieve $ filter (\y -> mod x y /= 0) xs)
+sieve (x:xs) |x <= 1 = x:(sieve xs)
+             |otherwise = x:(sieve $ filter (\y -> mod y x /= 0) xs)
 
---it makes no sense to use the sieve of eratosthenes for this...
 isPrime :: Integer -> Bool
 isPrime 0 = false
 isPrime 1 = false
