@@ -10,7 +10,7 @@ flcl :: Eq a => [a] -> [a]
 flcl li = [x | (x,y) <- zip (init li) (tail li), x==y]
 
 g :: [Int] -> Bool
-g = foldr (\x y -> x && y) true $ map (\x -> (mod) x 2 == 0) $ filter (\x -> x>=10 && x<=100)
+g = foldr (\x y -> x && y) true . map (\x -> (mod) x 2 == 0) . filter (\x -> x>=10 && x<=100)
 
 type Fabricante = String
 type Potencia = Integer
