@@ -13,7 +13,8 @@ removeDuplicates :: [Int] -> [Int]
 removeDuplicates [] = []
 removeDuplicates [x] = [x]
 removeDuplicates (x:y:xs) | x==y = removeDuplicates (x:xs)
-| otherwise = x:(removeDuplicates (y:xs))
+                          | otherwise = x:(removeDuplicates (y:xs))
+
 makeSet :: [Int] -> CInt
 makeSet = Conjunto . removeDuplicates . Data.List.sort
 
@@ -29,14 +30,14 @@ mapSet fun (Conjunto x) = Conjunto $ map fun x
 type Texto = String
 type Id = String
 type DataHoraPub = Int
+
 data Post = Post (Id, DataHoraPub) Texto deriving (Show, Eq)
 data Thread = Nil | T Post (Thread)
 
 --3a
 instance Show Thread where
 show Nil = ""
-show (T (Post (id, dhp) tex) thr) = "(" ++ id ++ " " ++ (Prelude.show dhp) ++ " " ++ tex ++ ")"
-++ (Main.show thr)
+show (T (Post (id, dhp) tex) thr) = "(" ++ id ++ " " ++ (Prelude.show dhp) ++ " " ++ tex ++ ")" ++ (Main.show thr)
 
 --3b
 inserirPost :: Post -> Thread -> Thread
@@ -55,5 +56,6 @@ listToThread (x:xs) = T x $ listToThread xs
 --3e
 removeFilter :: (Id, DataHoraPub) -> Post -> Bool
 removeFilter (id1, dhp1) (Post (id2, dhp2) _) = (id1 /= id2 || dhp1 /= dhp2)
+
 removerPost :: (Id, DataHoraPub) -> Thread -> Thread
 removerPost pair = listToThread . (filter $ removeFilter pair) . threadToList
