@@ -8,30 +8,34 @@ import Control.Concurrent.STM.TVar
 true = True
 false = False
 
-subseqs :: [a] -> [[a]]
-subseqs [] = [[]]
-subseqs (x:xs) = map (x:) (subseqs xs) ++ subseqs xs
+threadA::MVar Float -> MVar Float -> IO()
+threadA s r
+     = do putMVar s 5
+          z <- takeMVar r
+          putStrLn (Prelude.show z)
 
-fib :: Int -> Int
-fib 0 = 0
-fib 1 = 1
-fib x = z
-    where (_,z) = fibDuo (x)
+threadB::MVar Float -> MVar Float -> IO()
+threadB r s
+     = do z <- takeMVar r
+          putMVar s (z*500)
 
-fibDuo :: Int -> (Int, Int)
-fibDuo 1 = (0,1)
-fibDuo x = (y, z)
-    where (y, z) = (fb2, fb1+fb2)
-          (fb1, fb2) = fibDuo (x-1)
+ab :: IO ()
+ab = do aMVar <- newEmptyMVar
+        bMVar <- newEmptyMVar
+        forkIO (threadA aMVar bMVar)
+        forkIO (threadB aMVar bMVar)
+        threadDelay 2000
+        return()
 
-test1 :: Int -> Int -> Int
-test1 _ _ = 0
+data Counter = Counter (MVar Int)
 
-test2 :: Int -> Bool
-test2 _ = false
+instance Show Counter where
+show (Counter x) = Prelude.show x
 
-test3 :: Int -> Int
-test3 _ = 0
+decrement :: Counter -> IO()
+decrement (Counter num) =
+    do z <- takeMVar num
+       putMVar num (z-1)
 
 myMap :: (a->b->c) -> [a] -> [b] -> [c]
 myMap fun ali bli = [fun x y | (x,y) <- zip ali bli]
